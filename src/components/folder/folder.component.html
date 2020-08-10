@@ -1,0 +1,89 @@
+<div class="container">
+  <button mat-raised-button [disabled]="(currentViewDir | async) == (highestDir | async)" (click)="up()">Up</button>
+  <button mat-raised-button [disabled]="!((history | async)?.length > 1)" (click)="back()">Back</button>
+  <!-- <form class="example-form">
+    <mat-form-field class="example-form-field">
+      <input matInput type="text" placeholder="Add new task" [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
+        (keyup.enter)="onSubmit()">
+      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="clearInput($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </form> -->
+  <div>
+    <!-- <mat-selection-list cdkDropList [cdkDropListData]="currentViewDirContents">
+      <table>
+        <tr>
+          <th>File Name</th>
+          <th>File Size</th>
+          <th>Date Modified</th>
+          <th>Date Created</th>
+        </tr>
+        <mat-list-option *ngFor="let file of currentViewDirContents | async; index as i;" cdkDrag
+          (click)="clickFile(file)">
+          <tr>
+            <td>{{ file }}</td>
+            <td *ngIf="!!(stats | async)">{{ (stats | async)[nameToPathName(file)].size }}</td>
+            <td *ngIf="!!(stats | async)">{{ (stats | async)[nameToPathName(file)].dateModified }}</td>
+            <td *ngIf="!!(stats | async)">{{ (stats | async)[nameToPathName(file)].dateCreated }}</td>
+          </tr>
+        </mat-list-option>
+      </table>
+    </mat-selection-list> -->
+
+    <!-- <mat-list-option *ngFor="let file of currentViewDirContents | async; index as i;" cdkDrag (click)="clickFile(file)">
+      {{ file }}
+      <mat-divider></mat-divider>
+    </mat-list-option>
+    </mat-selection-list> -->
+    <!-- <mat-list>
+      <mat-list-item *ngFor="let file of currentViewContents">
+        <mat-icon matListIcon>delete_forever</mat-icon>
+        {{ file }}
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list> -->
+  </div>
+
+  <div>
+    <table mat-table [dataSource]="currentViewDirContents" cdkDropList [cdkDropListData]="currentViewDirContents"
+      (cdkDropListDropped)="drop($event)" class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="size">
+        <th mat-header-cell *matHeaderCellDef> Size </th>
+        <td mat-cell *matCellDef="let element"> {{(stats | async)[nameToPathName(element)].size}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="dateModified">
+        <th mat-header-cell *matHeaderCellDef> Date Modified </th>
+        <td mat-cell *matCellDef="let element"> {{(stats | async)[nameToPathName(element)].dateModified}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="dateCreated">
+        <th mat-header-cell *matHeaderCellDef> dateCreated </th>
+        <td mat-cell *matCellDef="let element"> {{(stats | async)[nameToPathName(element)].dateCreated}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr (click)="clickFile(row)" mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row">
+      </tr>
+    </table>
+  </div>
+
+  <button mat-raised-button (click)="add()">Add</button>
+  <button mat-raised-button (click)="debugReport()">DebugReport</button>
+  <button mat-raised-button (click)="reload()">Reload</button>
+</div>
+
+
+
+<!-- (click)="onAreaListControlChanged(i)" -->
